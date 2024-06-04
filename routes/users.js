@@ -19,5 +19,6 @@ router.put("/bulkpop/:id", dataControllers.bulkpop_put);
 router.delete("/bulkpop/:id", dataControllers.bulkpop_delete);
 router.post("/login", authControllers.login);
 router.get("/islogin", auth, authControllers.isLogin);
+router.get("/identity", auth, authControllers.identity);
 
 module.exports = router;

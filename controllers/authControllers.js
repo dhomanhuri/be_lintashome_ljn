@@ -37,6 +37,12 @@ const isLogin = (req, res) => {
         status: true,
     });
 };
+const identity = (req, res) => {
+    res.send({
+        status: true,
+        data: req.user
+    });
+};
 
 const register = async (req, res) => {
     const schema = {
@@ -60,4 +66,4 @@ const register = async (req, res) => {
         data: data,
     });
 };
-module.exports = { login, isLogin, register };
+module.exports = { login, isLogin, register, identity };
