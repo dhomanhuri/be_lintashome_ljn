@@ -64,6 +64,7 @@ const register = async (req, res) => {
     return res.send({
         status: true,
         data: data,
+        message: "data successfully register"
     });
 };
 module.exports = { login, isLogin, register, identity };
