@@ -40,7 +40,7 @@ const isLogin = (req, res) => {
 const identity = (req, res) => {
     res.send({
         status: true,
-        data: req.user
+        data: req.user,
     });
 };
 
@@ -56,7 +56,7 @@ const register = async (req, res) => {
         console.log(validate);
         return res.status(400).json({
             status: false,
-            errors: validate[0].message,
+            message: validate[0].message,
         });
     }
     req.body.password = await hashpw(req.body.password);
@@ -64,7 +64,7 @@ const register = async (req, res) => {
     return res.send({
         status: true,
         data: data,
-        message: "data successfully register"
+        message: "data successfully register",
     });
 };
 module.exports = { login, isLogin, register, identity };
