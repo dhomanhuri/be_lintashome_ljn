@@ -58,7 +58,7 @@ const bulkpop_add = async (req, res) => {
             console.log(validate);
             return res.status(400).json({
                 status: false,
-                errors: validate[0].message,
+                message: validate[0].message,
             });
         }
 
@@ -93,7 +93,7 @@ const bulkpop_put = async (req, res) => {
             console.log(validate);
             return res.status(400).json({
                 status: false,
-                errors: validate[0].message,
+                message: validate[0].message,
             });
         }
 
