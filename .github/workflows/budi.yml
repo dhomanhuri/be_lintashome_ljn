@@ -1,0 +1,22 @@
+name: Deploy CI/CD to Servers
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing deploy to server using remote ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: "103.155.198.246"
+          username: "noc"
+          password: ${{ secrets.PW_SSH_BUDI }}
+          port: "22"
+          script: |
+            cd be_lintashome_ljn
+            git pull
+            docker image prune -a -f && docker-compose up -d --build
