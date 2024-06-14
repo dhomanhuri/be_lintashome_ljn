@@ -2,7 +2,7 @@ name: Deploy CI/CD to Servers
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   build:
