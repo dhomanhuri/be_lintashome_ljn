@@ -1,13 +1,22 @@
 const model = require("../models/index");
 const Validator = require("fastest-validator");
 const v = new Validator();
+const moment = require('moment');
 
 const hoststatus = async (req, res) => {
     try {
-        let data = await model.HostStatus.findAll();
+        let data = await model.HostStatus.findAll({ order: asc });
         if (!data) {
             throw "data kosong";
         }
+        const currentTime = moment();
+        data.forEach(element => {
+            element.time = moment(element.createdAt).format('HH:mm:ss');
+            const duration = moment.duration(currentTime.diff(element.createdAt));
+            const hours = duration.hours();
+            const minutes = duration.minutes();
+            element.downtime = hours + ":" + minutes
+        });
         res.status(200).send({
             status: true,
             data: data,
@@ -131,4 +140,21 @@ const bulkpop_delete = async (req, res) => {
     }
 };
 
-module.exports = { bulkpop, hoststatus, bulkpop_add, bulkpop_put, bulkpop_delete };
+const host_data = async (req, res) => {
+    console.log(req.query);
+    let data = await model.BulkPop.findOne({
+        where: {
+            host: req.query.host
+        }
+    });
+    console.log(data);
+    await model.HostStatus.create({
+        pop_id: data.id,
+        user: req.query.user,
+        pop: data.name,
+        status: req.query.status,
+    });
+    res.send(req.query)
+}
+
+module.exports = { bulkpop, hoststatus, bulkpop_add, bulkpop_put, bulkpop_delete, host_data };

@@ -4,6 +4,7 @@ const { auth } = require("../middleware/auth");
 const exampleControllers = require("../controllers/exampleControllers");
 const authControllers = require("../controllers/authControllers");
 const dataControllers = require("../controllers/dataControllers");
+const cronControllers = require("../controllers/cronControllers");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -12,6 +13,8 @@ router.get("/", function (req, res, next) {
 
 router.post("/register", authControllers.register);
 
+router.get("/host_data", dataControllers.host_data);
+router.get("/test", cronControllers.sumCron);
 router.get("/hoststatus", dataControllers.hoststatus);
 router.get("/bulkpop", dataControllers.bulkpop);
 router.post("/bulkpop", dataControllers.bulkpop_add);
