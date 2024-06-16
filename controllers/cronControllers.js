@@ -32,5 +32,9 @@ const sumCron = async (req, res) => {
         res.send({ status: false, error: "terjadi kesalahan" })
     }
 }
+const destroyCron = async (res, req) => {
+    await model.HostStatus.truncate();
+    return res.send({ status: true })
+}
 
-module.exports = { sumCron };
+module.exports = { sumCron, destroyCron };

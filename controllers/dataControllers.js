@@ -2,21 +2,31 @@ const model = require("../models/index");
 const Validator = require("fastest-validator");
 const v = new Validator();
 const moment = require('moment');
-
+const { Sequelize, Model, DataTypes, Op } = require('sequelize');
 const hoststatus = async (req, res) => {
     try {
-        let data = await model.HostStatus.findAll({ order: asc });
-        if (!data) {
-            throw "data kosong";
-        }
+        let data = await model.HostStatus.findAll({
+            where: {
+                id: {
+                    [Op.in]: Sequelize.literal(`
+                  (SELECT MAX(id)
+                   FROM HostStatuses
+                   GROUP BY user)
+                `)
+                }
+            }
+        })
         const currentTime = moment();
-        data.forEach(element => {
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+
             element.time = moment(element.createdAt).format('HH:mm:ss');
             const duration = moment.duration(currentTime.diff(element.createdAt));
             const hours = duration.hours();
             const minutes = duration.minutes();
             element.downtime = hours + ":" + minutes
-        });
+            element.count = await model.HostStatus.count({ where: { user: element.user } })
+        }
         res.status(200).send({
             status: true,
             data: data,

@@ -11,10 +11,14 @@ var usersRouter = require("./routes/users");
 
 var app = express(); const cron = require('node-cron');
 
-// cron.schedule('* * * * * *', function () {
-//     console.log('Running task every second');
-//     cronControllers.sumCron()
-// });
+cron.schedule('1 * * * * *', function () {
+    console.log('Running task every second');
+    cronControllers.sumCron()
+});
+cron.schedule('0 0 * * *', function () {
+    console.log('Running task every 00');
+    cronControllers.destroyCron()
+});
 
 app.use(logger("dev"));
 app.use(express.json());
