@@ -26,10 +26,10 @@ const sumCron = async (req, res) => {
         res.send({ status: true, data: data });
     } catch (error) {
         console.log(error);
-        res.status(404).send({
-            status: false,
-            message: "terjadi error",
-        });
+        // res.status(404).send({
+        //     status: false,
+        //     message: "terjadi error",
+        // });
     }
 };
 const destroyCron = async (req, res) => {
