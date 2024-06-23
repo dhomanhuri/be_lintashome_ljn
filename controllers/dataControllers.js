@@ -28,10 +28,8 @@ const hoststatus = async (req, res) => {
             element.count = await model.HostStatus.count({
                 where: { [Op.and]: [{ user: element.user }, { status: "down" }] },
             });
-            if (element.status == "up") {
-                delete element;
-            }
         }
+        data = data.filter((item) => item.status !== "up");
 
         res.status(200).send({
             status: true,
