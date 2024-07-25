@@ -116,9 +116,9 @@ const hapus = async (req, res) => {
             },
         });
         console.log({ data });
-        data.forEach((element) => {
-            element.destroy();
-        });
+        // data.forEach((element) => {
+        //     element.destroy();
+        // });
         return res.status(200).send({
             status: true,
             message: "User Solved",
