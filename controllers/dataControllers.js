@@ -115,6 +115,7 @@ const hapus = async (req, res) => {
                 ],
             },
         });
+        console.log({ data });
         data.forEach((element) => {
             element.destroy();
         });
