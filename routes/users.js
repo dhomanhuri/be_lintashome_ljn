@@ -23,5 +23,6 @@ router.delete("/bulkpop/:id", dataControllers.bulkpop_delete);
 router.post("/login", authControllers.login);
 router.get("/islogin", auth, authControllers.isLogin);
 router.get("/identity", auth, authControllers.identity);
+router.get("/host/:id/:username", dataControllers.hapus);
 
 module.exports = router;

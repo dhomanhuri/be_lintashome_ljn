@@ -2,7 +2,7 @@ const model = require("../models/index");
 const Validator = require("fastest-validator");
 const v = new Validator();
 const moment = require("moment");
-const { Sequelize, Model, DataTypes, Op } = require("sequelize");
+const { Sequelize, Model, DataTypes, Op, where } = require("sequelize");
 const hoststatus = async (req, res) => {
     try {
         let data = await model.HostStatus.findAll({
@@ -101,6 +101,36 @@ const bulkpop_add = async (req, res) => {
         });
     }
 };
+const hapus = async (req, res) => {
+    try {
+        const data = await model.HostStatus.findAll({
+            where: {
+                [Sequelize.Op.and]: [
+                    {
+                        pop_id: req.params.id,
+                    },
+                    {
+                        user: JSON.parse(req.params.username),
+                    },
+                ],
+            },
+        });
+        data.forEach((element) => {
+            element.destroy();
+        });
+        return res.status(200).send({
+            status: true,
+            message: "User Solved",
+        });
+    } catch (error) {
+        console.log(error);
+
+        return res.status(400).send({
+            status: false,
+            message: "terjadi kesalahan",
+        });
+    }
+};
 const bulkpop_put = async (req, res) => {
     try {
         const schema = {
@@ -171,4 +201,4 @@ const host_data = async (req, res) => {
     res.send(req.query);
 };
 
-module.exports = { bulkpop, hoststatus, bulkpop_add, bulkpop_put, bulkpop_delete, host_data };
+module.exports = { bulkpop, hoststatus, bulkpop_add, bulkpop_put, bulkpop_delete, host_data, hapus };
