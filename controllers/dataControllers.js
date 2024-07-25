@@ -110,7 +110,7 @@ const hapus = async (req, res) => {
                         pop_id: req.params.id,
                     },
                     {
-                        user: JSON.parse(req.params.username),
+                        user: decodeURI(req.params.username),
                     },
                 ],
             },
