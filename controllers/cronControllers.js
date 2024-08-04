@@ -39,12 +39,12 @@ const destroyCron = async (req, res) => {
     
     try {
         const idsToKeep = await model.HostStatus.findAll({
-            attributes: ['user', [model.Sequelize.fn('MAX', model.Sequelize.col('id')), 'maxId']],
+            attributes: ['user', [model.Sequelize.fn('MIN', model.Sequelize.col('id')), 'minId']],
             group: ['user'],
             raw: true
         });
 
-        const idsToKeepSet = new Set(idsToKeep.map(entry => entry.maxId));
+        const idsToKeepSet = new Set(idsToKeep.map(entry => entry.minId));
 
         await model.HostStatus.destroy({
             where: {
