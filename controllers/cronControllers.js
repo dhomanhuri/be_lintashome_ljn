@@ -1,5 +1,6 @@
 const model = require("../models/index");
 const { RouterOSAPI } = require("node-routeros");
+const { Op } = require('sequelize');
 const sumCron = async (req, res) => {
     try {
         const data = await model.BulkPop.findAll();
@@ -33,8 +34,31 @@ const sumCron = async (req, res) => {
     }
 };
 const destroyCron = async (req, res) => {
-    await model.HostStatus.truncate();
-    return res.send({ status: true });
+    // await model.HostStatus.truncate();
+    // return res.send({ status: true });
+    
+    try {
+        const idsToKeep = await model.HostStatus.findAll({
+            attributes: ['user', [model.Sequelize.fn('MAX', model.Sequelize.col('id')), 'maxId']],
+            group: ['user'],
+            raw: true
+        });
+
+        const idsToKeepSet = new Set(idsToKeep.map(entry => entry.maxId));
+
+        await model.HostStatus.destroy({
+            where: {
+                id: {
+                    [Op.notIn]: Array.from(idsToKeepSet)
+                }
+            }
+        });
+
+        // return res.send({ status: true });
+    } catch (error) {
+        console.error('Error deleting records:', error);
+        // return res.status(500).send({ status: false, error: 'Internal server error' });
+    }
 };
 
 module.exports = { sumCron, destroyCron };
