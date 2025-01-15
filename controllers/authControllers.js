@@ -15,7 +15,7 @@ const login = async (req, res) => {
         const usertoken = user.dataValues;
         delete usertoken.password;
 
-        const token = jwt.sign(usertoken, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(usertoken, process.env.JWT_SECRET, {  });
         return res.send({
             status: true,
             message: "successfully login",
