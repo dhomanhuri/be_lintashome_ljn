@@ -12,7 +12,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.3.1",
-    "express": "~4.16.1",
+    "express": "~4.22.0",
     "fastest-validator": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "moment": "^2.30.1",
